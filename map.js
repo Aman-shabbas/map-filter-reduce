@@ -1,56 +1,129 @@
 // squares of [1, 2, 3] => [1, 4, 9]
-const squaresOf = function (numbers) { };
+const squaresOf = function (numbers) {
+  return numbers * numbers;
+};
 
 // lengths of ["apple", "banana", "kiwi"] => [5, 6, 4]
-const lengthsOf = function (strings) { };
+const lengthsOf = function (strings) {
+  return strings.length;
+};
 
 // uppercase of ["hello", "world"] => ["HELLO", "WORLD"]
-const uppercaseOf = function (strings) { };
+const uppercaseOf = function (strings) {
+  return strings.toUpperCase();
+};
 
 // first characters of ["apple", "banana", "kiwi"] => ["a", "b", "k"]
-const firstCharactersOf = function (strings) { };
+const firstCharactersOf = function (strings) {
+  return strings.at(0);
+};
 
 // truth values of [0, 1, 2, 3] => [false, true, true, true]
 // Assume non-zero numbers are true, and zero is false
-const truthValuesOf = function (numbers) { };
+const truthValuesOf = function (numbers) {
+  return !(numbers === 0);
+};
 
 // reverse strings of ["hello", "world"] => ["olleh", "dlrow"]
-const reversedStringsOf = function (strings) { };
+const reverseString = function (string) {
+  const stringInArray = string.split("");
+  const reversedArray = stringInArray.toReversed();
+  const reversedString = reversedArray.join("");
+  return reversedString;
+}
+
+const reversedStringsOf = function (strings) {
+  return reverseString(strings);
+};
 
 // double letters of ["cat", "dog", "bat"] => ["ccaat", "ddoog", "bbaatt"]
-const doubleLettersOf = function (strings) { };
+const doubleLetters = function (string) {
+  const charArray = string.split("");
+  return charArray.map(function (char) { return char + char }).join("");
+}
+
+const doubleLettersOf = function (strings) {
+  return doubleLetters(strings);
+};
 
 // boolean negation of [true, false, true] => [false, true, false]
-const negatedBooleansOf = function (booleans) { };
+const negatedBooleansOf = function (booleans) {
+  return !booleans;
+};
 
 // character codes of ["a", "b", "c"] => [97, 98, 99]
 // Use the `charCodeAt` method on each string
-const charCodesOf = function (strings) { };
+const charCodesOf = function (strings) {
+  return strings.charCodeAt(0);
+};
 
 // extract domain names from ["user1@gmail.com", "admin@yahoo.com"] => ["gmail.com", "yahoo.com"]
-const domainNamesOf = function (emails) { };
+const domainNamesOf = function (emails) {
+  return emails.split("@")[1];
+};
 
 // split words in ["hello world", "goodbye moon"] => [["hello", "world"], ["goodbye", "moon"]]
-const splitWordsOf = function (strings) { };
+const splitWordsOf = function (strings) {
+  return strings.split(" ");
+};
 
 // join arrays of [["a", "b"], ["c", "d"]] => ["ab", "cd"]
-const joinedArraysOf = function (arrayOfArrays) { };
+const joinedArraysOf = function (arrayOfArrays) {
+  return arrayOfArrays.join("");
+};
 
 // repeat strings in ["hi", "bye"] => ["hihi", "byebye"]
-const repeatedStringsOf = function (strings) { };
+const repeatedStringsOf = function (strings) {
+  return strings + strings;
+};
 
 // count vowels in ["apple", "banana", "grape"] => [2, 3, 2]
-const countVowelsOf = function (strings) { };
+const countVowels = function (initial, char) {
+  if ("aeiou".includes(char)) {
+    initial++;
+  }
+
+  return initial;
+}
+
+const countVowelsOf = function (strings) {
+  const arrayOfChar = strings.split("");
+  return arrayOfChar.reduce(countVowels, 0);
+};
 
 // reverse arrays of [[1, 2, 3], [4, 5, 6]] => [[3, 2, 1], [6, 5, 4]]
-const reversedArraysOf = function (arrays) { };
+const reversedArraysOf = function (arrays) { 
+  return arrays.toReversed();
+};
 
 // remove vowels from ["apple", "banana", "grape"] => ["ppl", "bnn", "grp"]
-const withoutVowelsOf = function (strings) { };
+const removeVowels = function (string) {
+  const arrayOfChars = string.split("");
+  const vowelsRemovedArray = arrayOfChars.filter(function (char){
+    return !"aeiou".includes(char);
+  });
+  const vowelsRemovedString = vowelsRemovedArray.join("");
+
+  return vowelsRemovedString;
+}
+
+const withoutVowelsOf = function (strings) { 
+  return removeVowels(strings)
+};
 
 // cumulative sums of [[1, 2, 3], [4, 5, 6]] => [[1, 3, 6], [4, 9, 15]]
 // Example: cumulative sum of [1, 2, 3] is [1, 1+2, 1+2+3]
-const cumulativeSumsOf = function (arrays) { };
+const getCumulative = function (array) {
+  return array.reduce(function (init, number) {
+    const previousSum = init[init.length - 1] || 0;
+    init.push(previousSum + number);return init
+  },[]
+  )
+}
+
+const cumulativeSumsOf = function (arrays) { 
+  return getCumulative(arrays);
+};
 
 // reverse words in ["hello world", "goodbye moon"] => ["olleh dlrow", "eybdoog noom"]
 const reversedWordsOf = function (strings) { };
