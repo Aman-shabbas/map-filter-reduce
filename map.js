@@ -181,10 +181,15 @@ const wordLengthsOf = function (strings) {
 };
 
 // flatten nested arrays of [[1, [2, 3]], [4, [5, 6]]] => [[1, 2, 3], [4, 5, 6]]
-const flattenedArraysOf = function (arrays) { };
+const flattenedArraysOf = function (arrays) { 
+  return arrays.flatMap(function (element) {return element});
+};
 
 // sort letters in ["cat", "bat", "rat"] alphabetically => ["act", "abt", "art"]
-const sortedLettersOf = function (strings) { };
+const sortedLettersOf = function (strings) { 
+  const charArray = strings.split("");
+  return charArray.sort().join("");
+};
 
 // wrap strings in brackets ["apple", "banana"] => ["[apple]", "[banana]"]
 const wrappedStringsOf = function (strings) { };
