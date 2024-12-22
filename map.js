@@ -92,14 +92,14 @@ const countVowelsOf = function (strings) {
 };
 
 // reverse arrays of [[1, 2, 3], [4, 5, 6]] => [[3, 2, 1], [6, 5, 4]]
-const reversedArraysOf = function (arrays) { 
+const reversedArraysOf = function (arrays) {
   return arrays.toReversed();
 };
 
 // remove vowels from ["apple", "banana", "grape"] => ["ppl", "bnn", "grp"]
 const removeVowels = function (string) {
   const arrayOfChars = string.split("");
-  const vowelsRemovedArray = arrayOfChars.filter(function (char){
+  const vowelsRemovedArray = arrayOfChars.filter(function (char) {
     return !"aeiou".includes(char);
   });
   const vowelsRemovedString = vowelsRemovedArray.join("");
@@ -107,7 +107,7 @@ const removeVowels = function (string) {
   return vowelsRemovedString;
 }
 
-const withoutVowelsOf = function (strings) { 
+const withoutVowelsOf = function (strings) {
   return removeVowels(strings)
 };
 
@@ -116,30 +116,69 @@ const withoutVowelsOf = function (strings) {
 const getCumulative = function (array) {
   return array.reduce(function (init, number) {
     const previousSum = init[init.length - 1] || 0;
-    init.push(previousSum + number);return init
-  },[]
+    init.push(previousSum + number); return init
+  }, []
   )
 }
 
-const cumulativeSumsOf = function (arrays) { 
+const cumulativeSumsOf = function (arrays) {
   return getCumulative(arrays);
 };
 
 // reverse words in ["hello world", "goodbye moon"] => ["olleh dlrow", "eybdoog noom"]
-const reversedWordsOf = function (strings) { };
+const reversedWordsOf = function (strings) {
+  const stringArray = strings.split(" ");
+  const reversedArray = stringArray.map(reversedStringsOf);
+  return reversedArray.join(" ");
+};
 
 // extract unique characters from ["apple", "banana", "grape"] => ["apl", "ban", "gra"]
 // Maintain the order of their first appearance in each string
-const uniqueCharactersOf = function (strings) { };
+const uniqueCharactersOf = function (strings) {
+  const charArray = strings.split("");
+  return charArray.reduce(function (uniqueChars, char) {
+    if (!uniqueChars.includes(char)) {
+      uniqueChars.push(char);
+    }
+    return uniqueChars;
+  }, []).join("");
+};
 
 // generate ranges from [3, 5, 2] => [[0, 1, 2], [0, 1, 2, 3, 4], [0, 1]]
-const rangesOf = function (numbers) { };
+function range(rngStart, rngEnd, step) {
+  const steps = [];
+
+  for (let element = rngStart; element < rngEnd; element += step) {
+    steps.push(element);
+  }
+  return steps;
+}
+
+const rangesOf = function (numbers) {
+  return range(0, numbers, 1);
+};
 
 // capitalize first letters of ["hello world", "goodbye moon"] => ["Hello World", "Goodbye Moon"]
-const capitalizedFirstLettersOf = function (strings) { };
+const capitalizeFirstLetter = function (word) {
+  const charArray = word.split("");
+  const replacedArray = charArray.toSpliced(0, 1, charArray[0].toUpperCase());
+  return replacedArray.join("");
+}
+
+const capitalizedFirstLettersOf = function (strings) {
+  const arrayOfWords = strings.split(" ");
+  return arrayOfWords.map(function (word) {
+    return capitalizeFirstLetter(word);
+  });
+}
 
 // find word lengths in ["apple pie", "banana split"] => [[5, 3], [6, 5]]
-const wordLengthsOf = function (strings) { };
+const wordLengthsOf = function (strings) {
+  const wordArray = strings.split(" ");
+  return wordArray.map(function (word) {
+    return word.length;
+  })
+};
 
 // flatten nested arrays of [[1, [2, 3]], [4, [5, 6]]] => [[1, 2, 3], [4, 5, 6]]
 const flattenedArraysOf = function (arrays) { };
