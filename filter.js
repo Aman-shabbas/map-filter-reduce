@@ -1,38 +1,103 @@
 // even numbers [1, 2, 3, 4, 5] => [2, 4]
-const filterEvenNumbers = function (numbers) { };
+const isEven = function (number) {
+  return (number & 1) === 0;
+}
+
+const filterEvenNumbers = function (number) {
+  return isEven(number)
+};
+console.log([1, 2, 3, 4, 5].filter(filterEvenNumbers));
+console.log([1, 3, 5, 7, 9].filter(filterEvenNumbers));
+console.log([2, 4, 6, 8, 10].filter(filterEvenNumbers));
 
 // words with more than 5 letters ["apple", "banana", "kiwi", "grape"] => ["banana"]
-const filterLongWords = function (words) { };
+const filterLongWords = function (words) {
+  return words.length >= 5;
+};
+
+console.log(["apple", "banana", "kiwi", "grape"].filter(filterLongWords));
+console.log(["a", "b", "banana", "all the best"].filter(filterLongWords));
 
 // people older than 30 [{name: "Alice", age: 25}, {name: "Bob", age: 35}] => [{name: "Bob", age: 35}]
-const filterAdults = function (people) { };
+const filterAdults = function (person) {
+  return person.age >= 30;
+};
+
+console.log([{ name: "Alice", age: 25 }, { name: "Bob", age: 35 }].filter(filterAdults));
+console.log([{ name: "Alice", age: 45 }, { name: "Bob", age: 35 }].filter(filterAdults));
 
 // active users [{username: "alice", active: true}, {username: "bob", active: false}] => [{username: "alice", active: true}]
-const filterActiveUsers = function (users) { };
+const filterActiveUsers = function (user) {
+  return user.active === true;
+};
+
+console.log([{ username: "alice", active: true }, { username: "bob", active: false }].filter(filterActiveUsers));
+console.log([{ username: "alice", active: true }, { username: "bob", active: true }].filter(filterActiveUsers));
 
 // numbers greater than 10 [5, 12, 7, 18, 3] => [12, 18]
-const filterNumbersGreaterThanTen = function (numbers) { };
+const filterNumbersGreaterThanTen = function (numbers) {
+  return numbers >= 10;
+};
+
+console.log([5, 2, 10, 15, 7, 34].filter(filterNumbersGreaterThanTen));
+console.log([5, 2, 7, 2, 8, 0, 3].filter(filterNumbersGreaterThanTen));
 
 // books with more than 200 pages [{title: "Book 1", pages: 150}, {title: "Book 2", pages: 250}] => [{title: "Book 2", pages: 250}]
-const filterLongBooks = function (books) { };
+const filterLongBooks = function (books) {
+  return books.pages >= 200;
+};
+
+console.log([{ title: "Book 1", pages: 150 }, { title: "Book 2", pages: 250 }].filter(filterLongBooks));
+console.log([{ title: "Book 1", pages: 1500 }, { title: "Book 2", pages: 250 }].filter(filterLongBooks));
+console.log([{ title: "Book 1", pages: 150 }, { title: "Book 2", pages: 50 }].filter(filterLongBooks));
 
 // users with incomplete profiles [{username: "alice", profileComplete: true}, {username: "bob", profileComplete: false}] => [{username: "bob", profileComplete: false}]
-const filterIncompleteProfiles = function (users) { };
+const filterIncompleteProfiles = function (users) {
+  return users.profileComplete === false;
+};
+
+console.log([{ username: "alice", profileComplete: true }, { username: "bob", profileComplete: false }].filter(filterIncompleteProfiles));
+console.log([{ username: "alice", profileComplete: false }, { username: "bob", profileComplete: false }].filter(filterIncompleteProfiles));
+console.log([{ username: "alice", profileComplete: true }, { username: "bob", profileComplete: true }].filter(filterIncompleteProfiles));
 
 // students with grades above 80 [{name: "John", grade: 75}, {name: "Jane", grade: 85}] => [{name: "Jane", grade: 85}]
-const filterHighGrades = function (students) { };
+const filterHighGrades = function (students) {
+  return students.grade >= 80;
+};
+
+console.log([{ name: "John", grade: 75 }, { name: "Jane", grade: 85 }].filter(filterHighGrades));
+console.log([{ name: "John", grade: 81 }, { name: "Jane", grade: 85 }].filter(filterHighGrades));
+console.log([{ name: "John", grade: 61 }, { name: "Jane", grade: 75 }].filter(filterHighGrades));
 
 // products that are in stock [{product: "apple", inStock: true}, {product: "banana", inStock: false}] => [{product: "apple", inStock: true}]
-const filterInStockProducts = function (products) { };
+const filterInStockProducts = function (products) {
+  return products.inStock === true;
+};
+
+console.log([{ product: "apple", inStock: true }, { product: "banana", inStock: false }].filter(filterInStockProducts));
+console.log([{ product: "apple", inStock: true }, { product: "banana", inStock: true }].filter(filterInStockProducts));
+console.log([{ product: "apple", inStock: false }, { product: "banana", inStock: false }].filter(filterInStockProducts));
 
 // orders placed in the last 30 days [{orderDate: "2024-11-01"}, {orderDate: "2024-12-01"}] => [{orderDate: "2024-12-01"}]
-const filterRecentOrders = function (orders) { };
+const filterRecentOrders = function (orders) {
+  return orders.orderDate >= "2024-11-23";
+};
+
+console.log([{ orderDate: "2024-11-01" }, { orderDate: "2024-12-01" }].filter(filterRecentOrders));
+console.log([{ orderDate: "2024-12-01" }, { orderDate: "2024-12-01" }].filter(filterRecentOrders));
+console.log([{ orderDate: "2024-11-01" }, { orderDate: "2024-11-22" }].filter(filterRecentOrders));
 
 // products with a price lower than the average [{name: "item1", price: 10}, {name: "item2", price: 20}, {name: "item3", price: 5}] => [{name: "item1", price: 10}, {name: "item3", price: 5}]
 const filterBelowAveragePrice = function (products) { };
 
 // active users who posted in the last 7 days [{username: "alice", lastPostDate: "2024-12-01", active: true}, {username: "bob", lastPostDate: "2024-11-20", active: true}] => [{username: "alice", lastPostDate: "2024-12-01", active: true}]
-const filterRecentActiveUsers = function (users) { };
+const filterRecentActiveUsers = function (users) {
+  return users.lastPostDate >= "2024-12-16";
+};
+
+console.log([{ username: "alice", lastPostDate: "2024-12-18", active: true }, { username: "bob", lastPostDate: "2024-11-20", active: true }].filter(filterRecentActiveUsers));
+console.log([{ username: "alice", lastPostDate: "2024-12-18", active: true }, { username: "bob", lastPostDate: "2024-12-22", active: true }].filter(filterRecentActiveUsers));
+console.log([{ username: "alice", lastPostDate: "2024-12-01", active: true }, { username: "bob", lastPostDate: "2024-11-20", active: true }].filter(filterRecentActiveUsers));
 
 // students who passed all subjects [{name: "John", subjects: [{name: "Math", passed: true}, {name: "Science", passed: true}]}, {name: "Jane", subjects: [{name: "Math", passed: false}, {name: "Science", passed: true}]}] => [{name: "John", subjects: [{name: "Math", passed: true}, {name: "Science", passed: true}]}]
 const filterStudentsWithAllSubjectsPassed = function (students) { };
@@ -215,13 +280,13 @@ const filterUsersByPostComments = function (users, minComments) { };
 const filterUsersByPostCategory = function (users, category) { };
 
 // Filter users who have a certain number of followers and have posted in the last 30 days [{user: {name: "Tom", followers: 1000, lastPostDate: "2024-11-10"}}] => [{user: {name: "Tom", followers: 1000, lastPostDate: "2024-11-10"}}]
-const filterActiveUsers = function (users, minFollowers, daysAgo) { };
+const filterActiveUser = function (users, minFollowers, daysAgo) { };
 
 // Filter posts that have at least one hashtag from a list of trending hashtags [{post: {title: "Post 1", hashtags: ["#food", "#vegan"]}}] => [{post: {title: "Post 1", hashtags: ["#food", "#vegan"]}}]
 const filterPostsByHashtags = function (posts, trendingHashtags) { };
 
 // Filter users who have shared at least one post that received a specific number of likes [{user: {name: "Lucy", posts: [{title: "Post 1", likes: 500}, {title: "Post 2", likes: 100}]}}] => [{user: {name: "Lucy", posts: [{title: "Post 1", likes: 500}, {title: "Post 2", likes: 100}]}}]
-const filterUsersByPostLikes = function (users, minLikes) { };
+const filterUsersByPostLike = function (users, minLikes) { };
 
 // Filter posts that have a certain number of comments and are from a specific location [{post: {title: "Post 1", comments: 150, location: "Paris"}}] => [{post: {title: "Post 1", comments: 150, location: "Paris"}}]
 const filterPostsByCommentsAndLocation = function (posts, minComments, location) { };
