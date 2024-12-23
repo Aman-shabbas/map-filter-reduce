@@ -167,20 +167,24 @@ const reversedWordsOf = function (strings) {
   return strings.map((string) => string.split(" ").map(reverseString).join(" "));
 };
 
-console.log(reversedWordsOf(["hello world", "goodbye moon"]));
+// console.log(reversedWordsOf(["hello world", "goodbye moon"]));
 
 // extract unique characters from ["apple", "banana", "grape"] => 
 // ["apl", "ban", "gra"]
 // Maintain the order of their first appearance in each string
+const getUniqueCharecters = function (uniqueChars, char) {
+  if (!uniqueChars.includes(char)) {
+    uniqueChars.push(char);
+  }
+  return uniqueChars;
+}
+
 const uniqueCharactersOf = function (strings) {
-  const charArray = strings.split("");
-  return charArray.reduce(function (uniqueChars, char) {
-    if (!uniqueChars.includes(char)) {
-      uniqueChars.push(char);
-    }
-    return uniqueChars;
-  }, []).join("");
+  return strings.map(function (string) {
+  return [...string].reduce(getUniqueCharecters, []).join("")});
 };
+
+// console.log(uniqueCharactersOf(["apple", "banana", "grape"]));
 
 // generate ranges from [3, 5, 2] => [[0, 1, 2], [0, 1, 2, 3, 4], [0, 1]]
 function range(rngStart, rngEnd, step) {
@@ -193,8 +197,10 @@ function range(rngStart, rngEnd, step) {
 }
 
 const rangesOf = function (numbers) {
-  return range(0, numbers, 1);
+  return numbers.map((number) => range(0, number, 1));
 };
+
+// console.log(rangesOf([3, 5, 2]));
 
 // capitalize first letters of ["hello world", "goodbye moon"] => 
 // ["Hello World", "Goodbye Moon"]
@@ -205,11 +211,13 @@ const capitalizeFirstLetter = function (word) {
 }
 
 const capitalizedFirstLettersOf = function (strings) {
-  const arrayOfWords = strings.split(" ");
-  return arrayOfWords.map(function (word) {
-    return capitalizeFirstLetter(word);
+  return strings.map(function (string) {
+    const wordArray = string.split(" ");
+    return wordArray.map((word) => capitalizeFirstLetter(word)).join(" ");
   });
 }
+
+// console.log(capitalizedFirstLettersOf(["hello world", "goodbye moon"]));
 
 // find word lengths in ["apple pie", "banana split"] => [[5, 3], [6, 5]]
 const wordLengthsOf = function (strings) {
