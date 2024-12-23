@@ -599,4 +599,16 @@ const summarizeBookChapters = function (books) { };
 // given an array of events, where each event has a `name` and an array of `attendees`, where each attendee has a `firstName` and `lastName`, return an array of events where each event contains the event name and an array of full names of attendees
 // [{name: "Concert", attendees: [{firstName: "John", lastName: "Doe"}, {firstName: "Jane", lastName: "Smith"}]}, {name: "Conference", attendees: [{firstName: "Bob", lastName: "Brown"}]}]
 // => [{name: "Concert", attendees: ["John Doe", "Jane Smith"]}, {name: "Conference", attendees: ["Bob Brown"]}]
-const getEventAttendees = function (events) { };
+const getFullName = (attender) => {
+  return attender.firstName + " " + attender.lastName;
+}
+
+const getEventAttendees = function (events) { 
+  return events.map((event) => {
+    const eventName = event.name;
+    const attendees = event.attendees.map(getFullName);
+    return { name: eventName, attendees: attendees }
+  });
+};
+
+console.log(getEventAttendees([{ name: "Concert", attendees: [{ firstName: "John", lastName: "Doe" }, { firstName: "Jane", lastName: "Smith" }] }, { name: "Conference", attendees: [{ firstName: "Bob", lastName: "Brown" }] }]));
