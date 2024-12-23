@@ -79,8 +79,8 @@ console.log([{ product: "apple", inStock: true }, { product: "banana", inStock: 
 console.log([{ product: "apple", inStock: false }, { product: "banana", inStock: false }].filter(filterInStockProducts));
 
 // orders placed in the last 30 days [{orderDate: "2024-11-01"}, {orderDate: "2024-12-01"}] => [{orderDate: "2024-12-01"}]
-const filterRecentOrders = function (orders) {
-  return orders.orderDate >= "2024-11-23";
+const filterRecentOrders = function (order) {
+  return order.orderDate >= "2024-11-23";
 };
 
 console.log([{ orderDate: "2024-11-01" }, { orderDate: "2024-12-01" }].filter(filterRecentOrders));

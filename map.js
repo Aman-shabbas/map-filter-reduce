@@ -1,83 +1,107 @@
 // squares of [1, 2, 3] => [1, 4, 9]
 const squaresOf = function (numbers) {
-  return numbers * numbers;
+  return numbers.map(function (number) {
+    return number * number;
+  })
 };
+// console.log(squaresOf([1, 2, 3]));
 
 // lengths of ["apple", "banana", "kiwi"] => [5, 6, 4]
 const lengthsOf = function (strings) {
-  return strings.length;
+  return strings.map((string) => string.length);
 };
+
+// console.log(lengthsOf(["apple", "banana", "kiwi"]));
 
 // uppercase of ["hello", "world"] => ["HELLO", "WORLD"]
 const uppercaseOf = function (strings) {
-  return strings.toUpperCase();
+  return strings.map((string) => string.toUpperCase());
 };
+
+// console.log(uppercaseOf(["hello", "world"]));
 
 // first characters of ["apple", "banana", "kiwi"] => ["a", "b", "k"]
 const firstCharactersOf = function (strings) {
-  return strings.at(0);
+  return strings.map((string) => string.at(0));
 };
+
+// console.log(firstCharactersOf(["apple", "banana", "kiwi"]));
 
 // truth values of [0, 1, 2, 3] => [false, true, true, true]
 // Assume non-zero numbers are true, and zero is false
 const truthValuesOf = function (numbers) {
-  return !(numbers === 0);
+  return numbers.map((number) => number !== 0);
 };
+
+// console.log(truthValuesOf([0, 1, 2, 3]));
 
 // reverse strings of ["hello", "world"] => ["olleh", "dlrow"]
 const reverseString = function (string) {
-  const stringInArray = string.split("");
-  const reversedArray = stringInArray.toReversed();
-  const reversedString = reversedArray.join("");
-  return reversedString;
+  return [...string].toReversed().join("");
 }
 
 const reversedStringsOf = function (strings) {
-  return reverseString(strings);
+  return strings.map(reverseString);
 };
+
+// console.log(reversedStringsOf(["hello", "world"]));
 
 // double letters of ["cat", "dog", "bat"] => ["ccaat", "ddoog", "bbaatt"]
 const doubleLetters = function (string) {
-  const charArray = string.split("");
-  return charArray.map(function (char) { return char + char }).join("");
+  const charArray = [...string];
+  return charArray.map((char) => char.repeat(2)).join("");
 }
 
 const doubleLettersOf = function (strings) {
-  return doubleLetters(strings);
+  return strings.map(doubleLetters);
 };
+
+// console.log(doubleLettersOf(["cat", "dog", "bat"]));
 
 // boolean negation of [true, false, true] => [false, true, false]
 const negatedBooleansOf = function (booleans) {
-  return !booleans;
+  return booleans.map((boolean) => !boolean);
 };
+
+// console.log(negatedBooleansOf([true, false, true]));
 
 // character codes of ["a", "b", "c"] => [97, 98, 99]
 // Use the `charCodeAt` method on each string
 const charCodesOf = function (strings) {
-  return strings.charCodeAt(0);
+  return strings.map((char) => char.charCodeAt(0));
 };
+
+// console.log(charCodesOf(["a", "b", "c"]));
 
 // extract domain names from ["user1@gmail.com", "admin@yahoo.com"] => 
 // ["gmail.com", "yahoo.com"]
 const domainNamesOf = function (emails) {
-  return emails.split("@")[1];
+  return emails.map((email) => email.slice(email.indexOf("@") + 1));
 };
+
+// console.log(domainNamesOf(["user1@gmail.com", "admin@yahoo.com"]));
 
 // split words in ["hello world", "goodbye moon"] => [["hello", "world"], 
 // ["goodbye", "moon"]]
 const splitWordsOf = function (strings) {
-  return strings.split(" ");
+  return strings.map((string) => string.split(" "));
 };
+
+// console.log(splitWordsOf(["hello world", "goodbye moon"]));
 
 // join arrays of [["a", "b"], ["c", "d"]] => ["ab", "cd"]
 const joinedArraysOf = function (arrayOfArrays) {
-  return arrayOfArrays.join("");
+  return arrayOfArrays.map((array) => array.join(""));
 };
+
+// console.log(joinedArraysOf([["a", "b"], ["c", "d"]]));
 
 // repeat strings in ["hi", "bye"] => ["hihi", "byebye"]
 const repeatedStringsOf = function (strings) {
-  return strings + strings;
+  return strings.map((string) => string.repeat(2))
 };
+
+// console.log(repeatedStringsOf(["hi", "bye"]));
 
 // count vowels in ["apple", "banana", "grape"] => [2, 3, 2]
 const countVowels = function (initial, char) {
@@ -89,9 +113,10 @@ const countVowels = function (initial, char) {
 }
 
 const countVowelsOf = function (strings) {
-  const arrayOfChar = strings.split("");
-  return arrayOfChar.reduce(countVowels, 0);
+  return strings.map(([...string]) => string.reduce(countVowels, 0));
 };
+
+console.log(countVowelsOf(["apple", "banana", "grape"]));
 
 // reverse arrays of [[1, 2, 3], [4, 5, 6]] => [[3, 2, 1], [6, 5, 4]]
 const reversedArraysOf = function (arrays) {
