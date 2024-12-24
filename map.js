@@ -584,17 +584,52 @@ const getCategoryItems = function (categories) { };
 // given an array of order objects with `orderId` and `products`, where each product has a `name` and `quantity`, return an array of orders, where each order contains its `orderId` and an array of product names, each with the quantity
 // [{orderId: 1, products: [{name: "Laptop", quantity: 1}, {name: "Mouse", quantity: 2}]}, {orderId: 2, products: [{name: "Keyboard", quantity: 1}]}]
 // => [{orderId: 1, products: ["Laptop x1", "Mouse x2"]}, {orderId: 2, products: ["Keyboard x1"]}]
-const summarizeOrderProducts = function (orders) { };
+const getNameAndQuantity = function (product) {
+  return product.name + " x" + product.quantity;
+}
+
+const summarizeOrderProducts = function (orders) { 
+  return orders.map((order) => {
+    const { orderId, products } = order;
+    const allProducts = products.map(getNameAndQuantity);
+    return { id: orderId, products: allProducts };
+  })
+};
+
+console.log(summarizeOrderProducts([{ orderId: 1, products: [{ name: "Laptop", quantity: 1 }, { name: "Mouse", quantity: 2 }] }, { orderId: 2, products: [{ name: "Keyboard", quantity: 1 }] }]));
 
 // given an array of students, each with a `name` and a `courses` array, return a new array of objects, where each object contains the student's name and an array of their course names in uppercase
 // [{name: "Alice", courses: [{courseName: "Math"}, {courseName: "Science"}]}, {name: "Bob", courses: [{courseName: "English"}]}]
 // => [{name: "Alice", courses: ["MATH", "SCIENCE"]}, {name: "Bob", courses: ["ENGLISH"]}]
-const getStudentCourses = function (students) { };
+const getCapitalizedCourseName = function (courses) {
+  return courses.courseName.toUpperCase();
+}
+
+const getStudentCourses = function (students) { 
+  return students.map((student) => {
+    const courses = student.courses.map(getCapitalizedCourseName);
+    return { name: student.name, courses: courses };
+  })
+};
+
+// console.log(getStudentCourses([{ name: "Alice", courses: [{ courseName: "Math" }, { courseName: "Science" }] }, { name: "Bob", courses: [{ courseName: "English" }] }]));
 
 // given an array of books, each with a `title` and `chapters`, where each chapter has a `title` and a `pageCount`, return an array of books, each containing the book's title and an array of chapter titles along with their page counts
 // [{title: "Book 1", chapters: [{title: "Chapter 1", pageCount: 10}, {title: "Chapter 2", pageCount: 20}]}, {title: "Book 2", chapters: [{title: "Chapter 1", pageCount: 15}]}]
 // => [{title: "Book 1", chapters: ["Chapter 1: 10 pages", "Chapter 2: 20 pages"]}, {title: "Book 2", chapters: ["Chapter 1: 15 pages"]}]
-const summarizeBookChapters = function (books) { };
+const getChapterNameAndPage = function (chapter) {
+  return [chapter.title, chapter.pageCount];
+}
+
+const summarizeBookChapters = function (books) { 
+  return books.map((book) => {
+    const bookTitle = book.title;
+    const bookChapters = book.chapters.map(getChapterNameAndPage);
+    return { title: bookTitle, chapters: bookChapters };
+  });
+}
+
+// console.log(summarizeBookChapters([{ title: "Book 1", chapters: [{ title: "Chapter 1", pageCount: 10 }, { title: "Chapter 2", pageCount: 20 }] }, { title: "Book 2", chapters: [{ title: "Chapter 1", pageCount: 15 }] }]));
 
 // given an array of events, where each event has a `name` and an array of `attendees`, where each attendee has a `firstName` and `lastName`, return an array of events where each event contains the event name and an array of full names of attendees
 // [{name: "Concert", attendees: [{firstName: "John", lastName: "Doe"}, {firstName: "Jane", lastName: "Smith"}]}, {name: "Conference", attendees: [{firstName: "Bob", lastName: "Brown"}]}]
@@ -611,4 +646,4 @@ const getEventAttendees = function (events) {
   });
 };
 
-console.log(getEventAttendees([{ name: "Concert", attendees: [{ firstName: "John", lastName: "Doe" }, { firstName: "Jane", lastName: "Smith" }] }, { name: "Conference", attendees: [{ firstName: "Bob", lastName: "Brown" }] }]));
+// console.log(getEventAttendees([{ name: "Concert", attendees: [{ firstName: "John", lastName: "Doe" }, { firstName: "Jane", lastName: "Smith" }] }, { name: "Conference", attendees: [{ firstName: "Bob", lastName: "Brown" }] }]));
