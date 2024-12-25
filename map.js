@@ -181,7 +181,8 @@ const getUniqueCharecters = function (uniqueChars, char) {
 
 const uniqueCharactersOf = function (strings) {
   return strings.map(function (string) {
-  return [...string].reduce(getUniqueCharecters, []).join("")});
+    return [...string].reduce(getUniqueCharecters, []).join("")
+  });
 };
 
 // console.log(uniqueCharactersOf(["apple", "banana", "grape"]));
@@ -349,39 +350,109 @@ const splitFullNames = function (objects) {
 
 // normalize scores so they fall between 0 and 1 based on the max score from 
 // [{ name: "Alice", score: 80 }, { name: "Bob", score: 100 }] => [0.8, 1]
+const maxScore = function (currentMax, student) {
+  return Math.max(currentMax, student.score);
+}
+
 const normalizeScores = function (objects) {
-  const maximusScore = Math.max(objects.score);
-  return objects.score / 100;
+  const maxScore = objects.reduce(maxScore, -Infinity);
+  return objects.map(object => object.score / maxScore)
 };
 
+// console.log(normalizeScores([{ name: "Alice", score: 80 }, { name: "Bob", score: 100 }]));
+
 // calculate percentage contribution of each number in [10, 20, 30] (relative to the total sum) => [16.67, 33.33, 50]
-const percentageContributions = function (numbers) { };
+const percentageContributions = function (numbers) {
+  const total = numbers.reduce((currentSum, number) => currentSum + number);
+  return numbers.map(number => Math.ceil(((number * 100) / total) * 100) / 100);
+};
+
+// console.log(percentageContributions([10, 20, 30]));
 
 // subtract the smallest number from each number in [3, 8, 1] => [2, 7, 0]
-const subtractMin = function (numbers) { };
+const min = function (currentSmallest, number) {
+  return Math.min(currentSmallest, number);
+}
+
+const subtractMin = function (numbers) {
+  const smallest = numbers.reduce(min, Infinity);
+  return numbers.map(number => number - smallest);
+};
+
+// console.log(subtractMin([3, 8, 1]));
 
 // calculate ranks (1-based, descending) for scores in [{ name: "Alice", score: 80 }, { name: "Bob", score: 100 }, { name: "Charlie", score: 90 }] => [2, 1, 3]
 const calculateRanks = function (objects) { };
 
 // normalize strings by the longest string length in ["cat", "elephant", "dog"] => ["cat    ", "elephant", "dog    "]
 // (pad with spaces to match the longest length)
-const normalizeStringLengths = function (strings) { };
+const maxStringLength = function (currentMaxLength, string) {
+  return Math.max(currentMaxLength, string.length);
+}
+
+const normalizeStringLengths = function (strings) {
+  const longestStringLength = strings.reduce(maxStringLength, -Infinity);
+  return strings.map(string => string.padEnd(longestStringLength));
+};
+
+// console.log(normalizeStringLengths(["cat", "elephant", "dog"]));
 
 // normalize strings by centering them based on the longest string length in ["cat", "elephant", "dog"] => ["  cat   ", "elephant", "  dog   "]
 // (pad with spaces to justify to the center)
-const centerJustifyStrings = function (strings) { };
+const centerJustifyStrings = function (strings) {
+  const longestStringLength = strings.reduce(maxStringLength, -Infinity);
+  return strings.map(string => {
+    const leftPad = Math.floor((longestStringLength + string.length) / 2);
+    const rightPad = (longestStringLength);
+    return string.padStart(leftPad, "#").padEnd(rightPad, "#");
+  });
+};
+
+// console.log(centerJustifyStrings(["cat", "elephant", "dog"]));
 
 // scale all numbers proportionally so the largest number becomes 100 in [20, 50, 80] => [25, 62.5, 100]
 const scaleToMax100 = function (numbers) { };
 
 // map each number to the difference between it and the average of the array in [10, 20, 30] => [-10, 0, 10]
-const differencesFromMean = function (numbers) { };
+const differencesFromMean = function (numbers) {
+  const sum = numbers.reduce((currentSum, number) => currentSum + number);
+  const average = sum / numbers.length;
+  return numbers.map(number => number - average);
+};
+
+// console.log(differencesFromMean([10, 20, 30]));
 
 // map each string to its frequency in ["apple", "banana", "apple", "apple", "banana"] => [3, 2, 3, 3, 2]
-const stringFrequencies = function (strings) { };
+const countString = function (checkString) {
+  return function (count, string) {
+    if (string === checkString) {
+      count++;
+    }
+    return count;
+  }
+}
+
+const stringFrequencies = function (strings) { 
+  return strings.map(string => {
+    return strings.reduce(countString(string), 0);
+  })
+};
+
+// console.log(stringFrequencies(["apple", "banana", "apple", "apple", "banana"]));
 
 // mark the largest number in an array as true, others as false in [1, 3, 2] => [false, true, false]
-const markLargestNumber = function (numbers) { };
+const isEqual = function (largest) {
+  return function (number) {
+    return number === largest;
+  }
+}
+
+const markLargestNumber = function (numbers) { 
+  const largest = numbers.reduce((currentLargest, number) => Math.max(currentLargest, number), -Infinity);
+  return numbers.map(isEqual(largest));
+};
+
+console.log(markLargestNumber([1, 3, 2]));
 
 // normalize scores based on a curve: first find the max score, then subtract the mean, and scale the results to a range of 0-100 in [{ name: "Alice", score: 80 }, { name: "Bob", score: 100 }, { name: "Charlie", score: 90 }] => [60, 100, 80]
 // Steps: Find max score, calculate mean, normalize each score.
@@ -532,31 +603,103 @@ const power = function (bases, exponents) { };
 
 // given two arrays, one of prices and one of discounts, create closures to apply the discount to the price, then use flatMap to apply each discount to each price
 // [100, 200], [0.1, 0.2] => [90, 180, 160, 240]
-const applyDiscount = function (prices, discounts) { };
+const discountedPrice = function (discounts) {
+  return function (price) {
+    return discounts.map(discount => price - (price * discount));
+  }
+}
+
+const applyDiscount = function (prices, discounts) {
+  return prices.flatMap(discountedPrice(discounts));
+};
+
+// console.log(applyDiscount([100, 200], [0.1, 0.2]));
 
 // given two arrays, one of names and one of titles, create closures that combine each name with each title, then use flatMap to generate all combinations of names and titles
 // ["Alice", "Bob"], ["Developer", "Manager"] => ["Alice Developer", "Alice Manager", "Bob Developer", "Bob Manager"]
-const combineNameAndTitle = function (names, titles) { };
+const combineTitle = function (titles) {
+  return function (name) {
+    return titles.map(title => name + " " + title);
+  }
+}
+
+const combineNameAndTitle = function (names, titles) {
+  return names.flatMap(combineTitle(titles));
+};
+
+// console.log(combineNameAndTitle(["Alice", "Bob"], ["Developer", "Manager"]));
 
 // given two arrays, one of numbers and one of multipliers, create closures that multiply the base number by the corresponding multiplier at the same index, then return the results
 // [1, 2, 3], [2, 3, 4] => [2, 6, 12]
-const multiplyByCorresponding = function (bases, multipliers) { };
+const multiplyelements = function (multiplier) {
+  return function (element, index) {
+    return element * multiplier[index];
+  }
+}
+
+const multiplyByCorresponding = function (bases, multipliers) {
+  return bases.map(multiplyelements(multipliers));
+};
+
+// console.log(multiplyByCorresponding([1, 2, 3], [2, 3, 4]));
 
 // given an array of objects, where each object contains a `name` and `age`, create a closure for each person that adds a `yearsToRetirement` property, then use flatMap to calculate the retirement year for each person assuming retirement at 65
 // [{name: "Alice", age: 30}, {name: "Bob", age: 40}] => ["Alice will retire in 35 years", "Bob will retire in 25 years"]
-const calculateRetirement = function (people) { };
+const addYearsToRetairment = function (ageOfretairment) {
+  return function (person) {
+    const yearsLeft = ageOfretairment - person.age;
+    person.yearsToRetirment = yearsLeft;
+    return person.name + "will retire in " + yearsLeft + " years";
+  }
+}
+
+const calculateRetirement = function (people) {
+  return people.flatMap(addYearsToRetairment(65));
+};
+
+// console.log(calculateRetirement([{ name: "Alice", age: 30 }, { name: "Bob", age: 40 }]));
 
 // given an array of numbers, create a closure that checks if a number is greater than or equal to a specified value (e.g., 10), then use flatMap to return only the numbers that meet the condition
 // [5, 10, 15], 10 => [10, 15]
-const filterGreaterThanEqual = function (numbers, threshold) { };
+const numbersGreaterThan = function (thrushold) {
+  return function (number) {
+    return number >= thrushold ? [number] : [];
+  }
+}
+
+const filterGreaterThanEqual = function (numbers, threshold) {
+  return numbers.flatMap(numbersGreaterThan(10));
+};
+
+// console.log(filterGreaterThanEqual([5, 10, 15], 10));
 
 // given an array of strings representing messages and an array of punctuation marks, create closures that append each punctuation mark to each message, then use flatMap to create all possible combinations of messages with punctuation
 // ["Hello", "Goodbye"], ["!", "?"] => ["Hello!", "Hello?", "Goodbye!", "Goodbye?"]
-const addPunctuation = function (messages, punctuations) { };
+const appendPunctuation = function (punctuations) {
+  return function (message) {
+    return punctuations.map((punctuation) => message + punctuation);
+  }
+}
+
+const addPunctuation = function (messages, punctuations) {
+  return messages.flatMap(appendPunctuation(punctuations));
+};
+
+// console.log(addPunctuation(["Hello", "Goodbye"], ["!", "?"]));
 
 // given an array of user objects with `name` and `age`, create closures that return a greeting with the user's name, then use flatMap to apply the closure to each user
 // [{name: "Alice", age: 30}, {name: "Bob", age: 25}] => ["Hello Alice!", "Hello Bob!"]
-const greetUsers = function (users) { };
+const greetWithMessage = function (message) {
+  return function (user) {
+    return message + " " + user.name;
+  }
+}
+
+const greetUsers = function (users) {
+  return users.flatMap(greetWithMessage("Hello"));
+};
+
+// console.log(greetUsers([{ name: "Alice", age: 30 }, { name: "Bob", age: 25 }]));
 
 // given two arrays, one of people’s names and one of ages, create closures to generate a message indicating whether each person is an adult (18 or older), then use flatMap to apply the closure to each person
 // ["Alice", "Bob"], [20, 17] => ["Alice is an adult", "Bob is not an adult"]
@@ -568,12 +711,12 @@ const generateMessage = function (ages) {
   }
 }
 
-const checkAdultStatus = function (names, ages) { 
+const checkAdultStatus = function (names, ages) {
   const generateAgeMessage = generateMessage(ages);
   return names.map((person) => generateAgeMessage(person));
 };
 
-console.log(checkAdultStatus(["Alice", "Bob"], [20, 17]));
+// console.log(checkAdultStatus(["Alice", "Bob"], [20, 17]));
 
 // given an array of product objects, each containing `name` and `price`, create closures to apply a sales tax (e.g., 10%) to the price, then use flatMap to calculate the price with tax for each product
 // [{name: "Shirt", price: 20}, {name: "Shoes", price: 50}] => [22, 55]
@@ -584,7 +727,7 @@ const applyTax = function (taxPercentage) {
   }
 }
 
-const applySalesTax = function (products) { 
+const applySalesTax = function (products) {
   const apply10PercentTax = applyTax(10);
   return products.map(({ price }) => apply10PercentTax(price));
 };
@@ -594,10 +737,10 @@ const applySalesTax = function (products) {
 // given an array of user objects with `name` and `posts`, return an array of objects where each object contains the user's name and an array of post titles
 // [{name: "Alice", posts: [{title: "Post 1"}, {title: "Post 2"}]}, {name: "Bob", posts: [{title: "Post 3"}]}] 
 // => [{name: "Alice", posts: ["Post 1", "Post 2"]}, {name: "Bob", posts: ["Post 3"]}]
-const getUserPostTitles = function (users) { 
+const getUserPostTitles = function (users) {
   return users.map((user) => {
     const userName = user.name;
-    const postTitles = user.posts.map(({ title }) => title); 
+    const postTitles = user.posts.map(({ title }) => title);
     return { name: userName, posts: postTitles };
   });
 };
@@ -607,7 +750,7 @@ const getUserPostTitles = function (users) {
 // given an array of products, where each product contains a `name`, `price`, and `tags` array, return a new array of products where each product contains its name and an array of uppercased tags
 // [{name: "Shirt", price: 20, tags: ["cotton", "summer"]}, {name: "Shoes", price: 50, tags: ["leather", "winter"]}] 
 // => [{name: "Shirt", tags: ["COTTON", "SUMMER"]}, {name: "Shoes", tags: ["LEATHER", "WINTER"]}]
-const formatProductTags = function (products) { 
+const formatProductTags = function (products) {
   return products.map((product) => {
     const productName = product.name;
     const tags = product.tags.map((tag) => tag.toUpperCase());
@@ -620,7 +763,7 @@ const formatProductTags = function (products) {
 // given an array of categories where each category has a `categoryName` and `items` array, return a new array where each item is an object with the category name and an array of item names
 // [{categoryName: "Fruits", items: [{name: "Apple"}, {name: "Banana"}]}, {categoryName: "Vegetables", items: [{name: "Carrot"}]}] 
 // => [{categoryName: "Fruits", items: ["Apple", "Banana"]}, {categoryName: "Vegetables", items: ["Carrot"]}]
-const getCategoryItems = function (categories) { 
+const getCategoryItems = function (categories) {
   return categories.map((category) => {
     const name = category.categoryName;
     const items = category.items.map(({ name }) => name)
@@ -637,7 +780,7 @@ const getNameAndQuantity = function (product) {
   return product.name + " x" + product.quantity;
 }
 
-const summarizeOrderProducts = function (orders) { 
+const summarizeOrderProducts = function (orders) {
   return orders.map((order) => {
     const { orderId, products } = order;
     const allProducts = products.map(getNameAndQuantity);
@@ -654,7 +797,7 @@ const getCapitalizedCourseName = function (courses) {
   return courses.courseName.toUpperCase();
 }
 
-const getStudentCourses = function (students) { 
+const getStudentCourses = function (students) {
   return students.map((student) => {
     const courses = student.courses.map(getCapitalizedCourseName);
     return { name: student.name, courses: courses };
@@ -670,7 +813,7 @@ const getChapterNameAndPage = function (chapter) {
   return [chapter.title, chapter.pageCount];
 }
 
-const summarizeBookChapters = function (books) { 
+const summarizeBookChapters = function (books) {
   return books.map((book) => {
     const bookTitle = book.title;
     const bookChapters = book.chapters.map(getChapterNameAndPage);
@@ -687,7 +830,7 @@ const getFullName = (attender) => {
   return attender.firstName + " " + attender.lastName;
 }
 
-const getEventAttendees = function (events) { 
+const getEventAttendees = function (events) {
   return events.map((event) => {
     const eventName = event.name;
     const attendees = event.attendees.map(getFullName);
