@@ -560,26 +560,75 @@ const greetUsers = function (users) { };
 
 // given two arrays, one of people’s names and one of ages, create closures to generate a message indicating whether each person is an adult (18 or older), then use flatMap to apply the closure to each person
 // ["Alice", "Bob"], [20, 17] => ["Alice is an adult", "Bob is not an adult"]
-const checkAdultStatus = function (names, ages) { };
+const generateMessage = function (ages) {
+  let personNo = 0;
+  return function (person) {
+    const ageCategory = ages[personNo++] > 18 ? "an adult" : "not an adult";
+    return person + " is " + ageCategory;
+  }
+}
+
+const checkAdultStatus = function (names, ages) { 
+  const generateAgeMessage = generateMessage(ages);
+  return names.map((person) => generateAgeMessage(person));
+};
+
+console.log(checkAdultStatus(["Alice", "Bob"], [20, 17]));
 
 // given an array of product objects, each containing `name` and `price`, create closures to apply a sales tax (e.g., 10%) to the price, then use flatMap to calculate the price with tax for each product
 // [{name: "Shirt", price: 20}, {name: "Shoes", price: 50}] => [22, 55]
-const applySalesTax = function (products) { };
+const applyTax = function (taxPercentage) {
+  return function (currentPrice) {
+    const tax = (currentPrice * taxPercentage) / 100;
+    return currentPrice + tax;
+  }
+}
+
+const applySalesTax = function (products) { 
+  const apply10PercentTax = applyTax(10);
+  return products.map(({ price }) => apply10PercentTax(price));
+};
+
+// console.log(applySalesTax([{ name: "Shirt", price: 20 }, { name: "Shoes", price: 50 }]));
 
 // given an array of user objects with `name` and `posts`, return an array of objects where each object contains the user's name and an array of post titles
 // [{name: "Alice", posts: [{title: "Post 1"}, {title: "Post 2"}]}, {name: "Bob", posts: [{title: "Post 3"}]}] 
 // => [{name: "Alice", posts: ["Post 1", "Post 2"]}, {name: "Bob", posts: ["Post 3"]}]
-const getUserPostTitles = function (users) { };
+const getUserPostTitles = function (users) { 
+  return users.map((user) => {
+    const userName = user.name;
+    const postTitles = user.posts.map(({ title }) => title); 
+    return { name: userName, posts: postTitles };
+  });
+};
+
+// console.log(getUserPostTitles([{ name: "Alice", posts: [{ title: "Post 1" }, { title: "Post 2" }] }, { name: "Bob", posts: [{ title: "Post 3" }] }]));
 
 // given an array of products, where each product contains a `name`, `price`, and `tags` array, return a new array of products where each product contains its name and an array of uppercased tags
 // [{name: "Shirt", price: 20, tags: ["cotton", "summer"]}, {name: "Shoes", price: 50, tags: ["leather", "winter"]}] 
 // => [{name: "Shirt", tags: ["COTTON", "SUMMER"]}, {name: "Shoes", tags: ["LEATHER", "WINTER"]}]
-const formatProductTags = function (products) { };
+const formatProductTags = function (products) { 
+  return products.map((product) => {
+    const productName = product.name;
+    const tags = product.tags.map((tag) => tag.toUpperCase());
+    return { name: productName, tags: tags };
+  });
+};
+
+// console.log(formatProductTags([{ name: "Shirt", price: 20, tags: ["cotton", "summer"] }, { name: "Shoes", price: 50, tags: ["leather", "winter"] }]));
 
 // given an array of categories where each category has a `categoryName` and `items` array, return a new array where each item is an object with the category name and an array of item names
 // [{categoryName: "Fruits", items: [{name: "Apple"}, {name: "Banana"}]}, {categoryName: "Vegetables", items: [{name: "Carrot"}]}] 
 // => [{categoryName: "Fruits", items: ["Apple", "Banana"]}, {categoryName: "Vegetables", items: ["Carrot"]}]
-const getCategoryItems = function (categories) { };
+const getCategoryItems = function (categories) { 
+  return categories.map((category) => {
+    const name = category.categoryName;
+    const items = category.items.map(({ name }) => name)
+    return { categoryName: name, items: items };
+  });
+};
+
+// console.log(getCategoryItems([{ categoryName: "Fruits", items: [{ name: "Apple" }, { name: "Banana" }] }, { categoryName: "Vegetables", items: [{ name: "Carrot" }] }]));
 
 // given an array of order objects with `orderId` and `products`, where each product has a `name` and `quantity`, return an array of orders, where each order contains its `orderId` and an array of product names, each with the quantity
 // [{orderId: 1, products: [{name: "Laptop", quantity: 1}, {name: "Mouse", quantity: 2}]}, {orderId: 2, products: [{name: "Keyboard", quantity: 1}]}]
@@ -596,7 +645,7 @@ const summarizeOrderProducts = function (orders) {
   })
 };
 
-console.log(summarizeOrderProducts([{ orderId: 1, products: [{ name: "Laptop", quantity: 1 }, { name: "Mouse", quantity: 2 }] }, { orderId: 2, products: [{ name: "Keyboard", quantity: 1 }] }]));
+// console.log(summarizeOrderProducts([{ orderId: 1, products: [{ name: "Laptop", quantity: 1 }, { name: "Mouse", quantity: 2 }] }, { orderId: 2, products: [{ name: "Keyboard", quantity: 1 }] }]));
 
 // given an array of students, each with a `name` and a `courses` array, return a new array of objects, where each object contains the student's name and an array of their course names in uppercase
 // [{name: "Alice", courses: [{courseName: "Math"}, {courseName: "Science"}]}, {name: "Bob", courses: [{courseName: "English"}]}]
